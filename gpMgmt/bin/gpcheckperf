@@ -533,7 +533,7 @@ def spawnNetperfTestBetween(x, y, netperf_path, netserver_port, sec=5):
          x, cmd]
     proc = None
     try:
-        if GV.opt['-v']:
+        if GV.opt['-v'] or GV.opt['-V']:
             print '[Info]', strcmd(c)
         proc = subprocess.Popen(c, stdout=subprocess.PIPE)
     except KeyboardInterrupt:
@@ -562,7 +562,7 @@ def reapNetperfTest(proc, x, y):
         finally:
             proc = None
 
-    if GV.opt['-v'] and out and out != '':
+    if (GV.opt['-v'] or GV.opt['-V']) and out and out != '':
         print '[Info]', out
     if out and out.find('Permission denied') >= 0 and out.find('publickey') >= 0:
         if not GV.opt['-v']:
@@ -736,8 +736,33 @@ def get_host_map(hostlist):
     if not rc:
         raise Exception('Encountered error running hostname')
 
+    ''' Sample output:
+             [sdw1] sdw1
+             [sdw2] sdw2
+
+             Output with verbose mode -V:
+             Using delaybeforesend 0.05 and prompt_validation_timeout 1.0
+
+             [Reset ...]
+             [INFO] login sdw1
+             [INFO] login sdw2
+             [sdw1] sdw1
+             [sdw2] sdw2
+             [INFO] completed successfully
+
+             [Cleanup...]
+    '''
+
     # get unique hostname list
     for line in out.splitlines():
+        # observed space in host name of some of the output, removing that space
+        line = line.replace('[ ', '[')
+        # removing \r and b coming in the output of the command
+        line = line.replace('\\r\'', '')
+        line = line.replace('b\'', '')
+        # Skip unwanted lines coming because of -V option set
+        if (len(line.split()) != 2 or "...]" in line):
+            continue
         seg, host = line.translate(None, '[]').split()
         uniqhosts[host] = seg
 
@@ -747,7 +772,8 @@ def get_host_map(hostlist):
 
         proc = None
         try:
-            if GV.opt['-v']: print '[Info]', strcmd(cmd)
+            if GV.opt['-v'] or GV.opt['-V']:
+                print '[Info]', strcmd(cmd)
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             out = proc.stdout.read(-1)
             rc = proc.wait()
@@ -829,7 +855,7 @@ def printMatrixResult(result, seglist):
     print
 
     # print per link results in verbose mode
-    if GV.opt['-v']:
+    if GV.opt['-v'] or GV.opt['-V']:
         for h in result:
             print '%s -> %s = %f' % (h[0], h[1], h[6])
 

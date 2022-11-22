@@ -3793,3 +3793,8 @@ def impl(context, content, desired_state):
 
     if len(rows) == 0:
         raise Exception("Expected content %s to be %s." % (content, desired_state))
+
+@given('create a gpcheckperf input host file')
+ def impl(context):
+     cmd = Command(name='create input host file', cmdStr='echo sdw1 > /tmp/hostfile1;echo mdw >> /tmp/hostfile1;')
+     cmd.run(validateAfter=True)
