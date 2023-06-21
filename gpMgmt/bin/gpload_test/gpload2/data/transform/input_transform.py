@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import sys
 sys.path.append('/usr/lib64/python2.7/site-packages/')
 import lxml.etree as ET

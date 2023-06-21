@@ -381,7 +381,7 @@ sub mkvcbuild
 		# Assume python.exe in specified dir.
 		open(P,
 			$solution->{options}->{python}
-			  . "\\python -c \"import sys;print(sys.prefix);print(str(sys.version_info[0])+str(sys.version_info[1]))\" |"
+			  . "\\python2 -c \"import sys;print(sys.prefix);print(str(sys.version_info[0])+str(sys.version_info[1]))\" |"
 		) || die "Could not query for python version!\n";
 		my $pyprefix = <P>;
 		chomp($pyprefix);

@@ -56,7 +56,7 @@ LIB_DIR=$(SRC)/lib
 PYLIB_DIR=$(SRC)/ext
 
 core: pygresql subprocess32
-	python gpconfig_modules/parse_guc_metadata.py $(DESTDIR)$(prefix)
+	python2 gpconfig_modules/parse_guc_metadata.py $(DESTDIR)$(prefix)
 
 ifeq ($(with_pythonsrc_ext), yes)
 install: installdirs installprograms core psutil pygresql pyyaml
@@ -82,9 +82,9 @@ pygresql:
 	fi
 	PATH=$(bindir):$$PATH && \
 	if [ `uname -s` = 'OpenBSD' ]; then \
-	    cd $(PYLIB_SRC)/$(PYGRESQL_DIR) && DESTDIR="$(DESTDIR)" CC=cc python setup.py build; \
+	    cd $(PYLIB_SRC)/$(PYGRESQL_DIR) && DESTDIR="$(DESTDIR)" CC=cc python2 setup.py build; \
 	else \
-	    cd $(PYLIB_SRC)/$(PYGRESQL_DIR) && DESTDIR="$(DESTDIR)" CC="$(CC)" LDFLAGS='$(LDFLAGS) $(PYGRESQL_LDFLAGS)' python setup.py build; \
+	    cd $(PYLIB_SRC)/$(PYGRESQL_DIR) && DESTDIR="$(DESTDIR)" CC="$(CC)" LDFLAGS='$(LDFLAGS) $(PYGRESQL_LDFLAGS)' python2 setup.py build; \
 	fi
 	mkdir -p $(PYLIB_DIR)/pygresql
 	if [ `uname -s` = 'Darwin' ]; then \
@@ -102,7 +102,7 @@ pygresql:
 subprocess32:
 	@echo "--- subprocess32, Linux only"
 	@if [ `uname -s` = 'Linux' ]; then \
-		  cd $(PYLIB_SRC)/subprocess32 && CC="$(CC)" python setup.py build; \
+		  cd $(PYLIB_SRC)/subprocess32 && CC="$(CC)" python2 setup.py build; \
 		  cp -f $(PYLIB_SRC)/subprocess32/build/lib.*/* $(PYLIB_DIR)/;  \
 		  cp -f $(PYLIB_SRC)/subprocess32/ChangeLog $(PYLIB_DIR)/subprocess32-ChangeLog;  \
 	  fi
@@ -116,7 +116,7 @@ PSUTIL_DIR=psutil-$(PSUTIL_VERSION)
 psutil:
 	@echo "--- psutil"
 	cd $(PYLIB_SRC_EXT)/ && tar xzf $(PSUTIL_DIR).tar.gz
-	cd $(PYLIB_SRC_EXT)/$(PSUTIL_DIR)/ && CC="$(CC)" python setup.py build
+	cd $(PYLIB_SRC_EXT)/$(PSUTIL_DIR)/ && CC="$(CC)" python2 setup.py build
 	cp -r $(PYLIB_SRC_EXT)/$(PSUTIL_DIR)/build/lib.*/psutil $(PYLIB_DIR)
 
 
@@ -129,7 +129,7 @@ PYYAML_DIR=PyYAML-$(PYYAML_VERSION)
 pyyaml:
 	@echo "--- pyyaml"
 	cd $(PYLIB_SRC_EXT)/ && tar xzf $(PYYAML_DIR).tar.gz
-	cd $(PYLIB_SRC_EXT)/$(PYYAML_DIR)/ && env -u CC python setup.py build
+	cd $(PYLIB_SRC_EXT)/$(PYYAML_DIR)/ && env -u CC python2 setup.py build
 	cp -r $(PYLIB_SRC_EXT)/$(PYYAML_DIR)/build/lib*/* $(PYLIB_DIR)
 
 #
@@ -152,7 +152,7 @@ SETUP_TOOLS_DIR=setuptools-$(SETUP_TOOLS_VERSION)
 PARSE_DIR=parse-$(PARSE_VERSION)
 ARG_PARSE_DIR=argparse-$(ARG_PARSE_VERSION)
 PYTHONSRC_INSTALL=$(PYLIB_SRC_EXT)/install
-PYTHON_VERSION=$(shell python -c "import sys; print ('%s.%s' % (sys.version_info[0:2]))")
+PYTHON_VERSION=$(shell python2 -c "import sys; print ('%s.%s' % (sys.version_info[0:2]))")
 PYTHONSRC_INSTALL_SITE=$(PYLIB_SRC_EXT)/install/lib/python$(PYTHON_VERSION)/site-packages
 PYTHONSRC_INSTALL_PYTHON_PATH=$(PYTHONPATH):$(PYTHONSRC_INSTALL_SITE)
 # TODO: mock-1.0.1-py2.6.egg package should be updated.
@@ -164,9 +164,9 @@ pylint:
 	@cd $(PYLIB_SRC_EXT)/ && tar xzf $(PYLINT_DIR).tar.gz
 	@cd $(PYLIB_SRC_EXT)/ && tar xzf $(LOGILAB_ASTNG_DIR).tar.gz
 	@cd $(PYLIB_SRC_EXT)/ && tar xzf $(LOGILAB_COMMON_DIR).tar.gz
-	@cd $(PYLIB_SRC_EXT)/$(PYLINT_DIR)/ && python setup.py build 1> /dev/null
-	@cd $(PYLIB_SRC_EXT)/$(LOGILAB_ASTNG_DIR)/ && python setup.py build 1> /dev/null
-	@cd $(PYLIB_SRC_EXT)/$(LOGILAB_COMMON_DIR)/ && python setup.py build 1> /dev/null
+	@cd $(PYLIB_SRC_EXT)/$(PYLINT_DIR)/ && python2 setup.py build 1> /dev/null
+	@cd $(PYLIB_SRC_EXT)/$(LOGILAB_ASTNG_DIR)/ && python2 setup.py build 1> /dev/null
+	@cd $(PYLIB_SRC_EXT)/$(LOGILAB_COMMON_DIR)/ && python2 setup.py build 1> /dev/null
 	@cp -r $(PYLIB_SRC_EXT)/$(LOGILAB_COMMON_DIR)/build/lib/logilab $(PYLIB_SRC_EXT)/$(PYLINT_DIR)/build/lib/
 	@cp -r $(PYLIB_SRC_EXT)/$(LOGILAB_ASTNG_DIR)/build/lib/logilab $(PYLIB_SRC_EXT)/$(PYLINT_DIR)/build/lib/
 	@touch $(PYLIB_SRC_EXT)/$(PYLINT_DIR)/build/lib/__init__.py
@@ -180,7 +180,7 @@ $(MOCK_BIN):
        mkdir -p $(PYTHONSRC_INSTALL_SITE) && \
 	   cd $(PYLIB_SRC_EXT)/ && tar xzf $(MOCK_DIR).tar.gz && \
 	   cd $(PYLIB_SRC_EXT)/$(MOCK_DIR)/ && \
-	   PYTHONPATH=$(PYTHONSRC_INSTALL_PYTHON_PATH) python setup.py install --prefix $(PYTHONSRC_INSTALL) ; \
+	   PYTHONPATH=$(PYTHONSRC_INSTALL_PYTHON_PATH) python2 setup.py install --prefix $(PYTHONSRC_INSTALL) ; \
 	 fi;
 
 PYTHON_FILES=`grep -l --exclude=Makefile --exclude=gplogfilter "/bin/env python" *`\
@@ -209,7 +209,7 @@ check: $(MOCK_BIN)
 unitdevel:
 	@echo "Running pure unit tests..."
 	PYTHONPATH=$(SERVER_SRC):$(SERVER_SBIN):$(PYTHONPATH):$(PYTHONSRC_INSTALL_PYTHON_PATH):$(SRC)/ext:$(SBIN_DIR):$(LIB_DIR):$(PYLIB_DIR)/mock-1.0.1 \
-	    python -m unittest discover --verbose -s $(SRC)/gppylib -p "test_unit*.py"
+	    python2 -m unittest discover --verbose -s $(SRC)/gppylib -p "test_unit*.py"
 
 
 .PHONY: installcheck-bash

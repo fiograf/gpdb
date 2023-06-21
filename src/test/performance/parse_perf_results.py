@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 '''
 Parse the results of the performance test into a CSV for loading into

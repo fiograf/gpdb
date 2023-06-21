@@ -32,7 +32,7 @@ else
 installcheck: gpdiff.pl gpstringsubs.pl
 	@cd gpload && ./TEST.py
 	@export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/site-packages/:/usr/lib64/python2.7/site-packages/:/usr/local/greenplum-db-devel/lib/python\
-	&& cd gpload2 && python -m pytest TEST_local_*
+	&& cd gpload2 && python2 -m pytest TEST_local_*
 endif
 
 clean distclean:

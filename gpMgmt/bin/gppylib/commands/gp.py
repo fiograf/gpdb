@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 #
 # Copyright (c) Greenplum Inc 2008. All Rights Reserved.
 #
@@ -1334,7 +1334,7 @@ def start_standbymaster(host, datadir, port, era=None,
 
     logger.info("Checking if standby master is running on host: %s  in directory: %s" % (host,datadir))
     cmd = Command("recovery_startup",
-                  ("python -c "
+                  ("python2 -c "
                    "'from gppylib.commands.gp import recovery_startup; "
                    """recovery_startup("{0}", "{1}")'""").format(
                        datadir, port),
@@ -1368,7 +1368,7 @@ def start_standbymaster(host, datadir, port, era=None,
         # shell script.
         pid = getPostmasterPID(host, datadir)
         cmd = Command("get pids",
-                      ("python -c "
+                      ("python2 -c "
                        "'from gppylib.commands import unix; "
                        "print unix.getDescendentProcesses({0})'".format(pid)),
                       ctxt=REMOTE, remoteHost=host)
@@ -1566,7 +1566,7 @@ def get_local_db_mode(master_data_dir):
 ######
 def read_postmaster_pidfile(datadir, host=None):
     if host:
-        cmdStr ="""python -c 'from {module} import {func}; print {func}("{args}")'""".format(module=sys.modules[__name__].__name__,
+        cmdStr ="""python2 -c 'from {module} import {func}; print {func}("{args}")'""".format(module=sys.modules[__name__].__name__,
                                                                                              func='read_postmaster_pidfile',
                                                                                              args=datadir)
         cmd = Command(name='run this method remotely', cmdStr=cmdStr, ctxt=REMOTE, remoteHost=host)

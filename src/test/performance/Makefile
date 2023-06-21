@@ -19,7 +19,7 @@ perf-ao-load: pg_regress.o perf-setup
 	$(top_builddir)/src/test/regress/pg_regress --init-file=$(top_builddir)/src/test/regress/init_file --psqldir='$(PSQLDIR)' --inputdir=$(srcdir) --schedule=$(srcdir)/performance_load_schedule | tee perf_results.out
 
 	# Parse the results.out into as a CSV for loading into a results table or spreadsheet
-	python parse_perf_results.py perf_results.out $(NUM_COPIES)
+	python2 parse_perf_results.py perf_results.out $(NUM_COPIES)
 
 	# Make sure we kill the gpfdist process we brought up
 	killall gpfdist

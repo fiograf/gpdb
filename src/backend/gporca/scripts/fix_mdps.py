@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python2
 #
 # updates plan and plan size in mdp files. Run ./fix_mdps.py --help for detailed description
 # Should be run from within <orca_src>/build directory

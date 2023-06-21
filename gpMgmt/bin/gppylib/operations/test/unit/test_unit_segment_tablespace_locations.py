@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 from mock import Mock, patch
 from gppylib.operations.segment_tablespace_locations import get_tablespace_locations

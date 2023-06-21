@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 '''
 Tool to validate replication consistency between primary and mirror.

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """
 gpcheckperf -- Check the hardware for Greenplum Database
 
@@ -341,7 +341,7 @@ def runSetup():
         # check python reachable
         if GV.opt['-v']:
             print '[Info] verify python interpreter exists'
-        (ok, out) = gpssh('python -c print')
+        (ok, out) = gpssh('python2 -c print')
         if not ok:
             if not GV.opt['-v']:
                 print out

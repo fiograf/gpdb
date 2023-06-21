@@ -18,7 +18,7 @@ start /B pipe_win10.exe
 start /B gpfdist.exe -d \\.\pipe\
 curl -H "X-GP-PROTO: 0" http://127.0.0.1:8080/public_test_0_pipe0 || goto :error
 cd gpload2
-python TEST_REMOTE.py || goto :error
+python2 TEST_REMOTE.py || goto :error
 exit /b 0
 
 :error

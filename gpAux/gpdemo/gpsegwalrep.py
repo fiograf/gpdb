@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 """
 Initialize, start, stop, or destroy WAL replication mirror segments.

@@ -1533,7 +1533,7 @@ def impl(context, seg):
     cmd.run(validateAfter=True)
 
     cmd = Command(name="Run Bg process to save pid",
-                  cmdStr='sh -c "python /tmp/pid_background_script.py" &>/dev/null &', remoteHost=hostname, ctxt=REMOTE)
+                  cmdStr='sh -c "python2 /tmp/pid_background_script.py" &>/dev/null &', remoteHost=hostname, ctxt=REMOTE)
     cmd.run(validateAfter=True)
 
     cmd = Command(name="get bg pid", cmdStr="ps ux | grep pid_background_script.py | grep -v grep | awk '{print \$2}'",

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 '''
 USAGE:   gpperfmon_install --port GPDB_PORT [--enable --password GPMON_PASSWORD] [--pgpass PATH_TO_FILE] [--gpperfmonport GPPERFMON_PORT] [--verbose]

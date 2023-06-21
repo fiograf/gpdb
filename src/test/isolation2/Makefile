@@ -23,7 +23,7 @@ override LDLIBS := $(libpq_pgport) $(LDLIBS)
 all: test_python pg_isolation2_regress$(X) all-lib data scan_flaky_fault_injectors test_parallel_retrieve_cursor_extended_query test_parallel_retrieve_cursor_extended_query_error
 
 test_python:
-	python helpers_test.py
+	python2 helpers_test.py
 
 test_parallel_retrieve_cursor_extended_query: test_parallel_retrieve_cursor_extended_query.c
 	$(CC) $(CPPFLAGS) -I$(top_builddir)/src/interfaces/libpq -L$(GPHOME)/lib -L$(top_builddir)/src/interfaces/libpq  -o $@ $< -lpq

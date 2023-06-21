@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 from gppylib.recoveryinfo import RecoveryErrorType
 from gppylib.commands.pg import PgBaseBackup, PgRewind
